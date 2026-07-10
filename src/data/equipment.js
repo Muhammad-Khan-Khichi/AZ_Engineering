@@ -1,0 +1,32 @@
+export const equipment = [
+  { id: 1, name: "Fork Lifter", specs: "3 Ton Capacity", qty: "01" },
+  { id: 2, name: "Electric Welding Plant", specs: "380V, AC 500 Amp", qty: "02" },
+  { id: 3, name: "Multi Welding Plant", specs: "400 Amp / 380V AC", qty: "—" },
+  {
+    id: 4,
+    name: "Electric Welding Plant (Single Phase)",
+    specs: "200 Amp",
+    qty: "03",
+  },
+  { id: 5, name: "Ring Spanner Set", specs: "10mm to 32mm", qty: "04" },
+  { id: 6, name: "Open Spanner Set", specs: "—", qty: "05" },
+  {
+    id: 7,
+    name: "Stuff Folding Complete with Joint Clamp",
+    specs: "2300 RFT",
+    qty: "—",
+  },
+  { id: 8, name: "Lathe Machine", specs: "5 Feet Work Bench", qty: "01" },
+  { id: 9, name: "Lathe Machine", specs: "3 Feet Work Bench", qty: "01" },
+  { id: 10, name: "Power Grinder", specs: "Single Phase", qty: "01" },
+  { id: 11, name: "Power Cutter", specs: '3 Phase, 16" Size, 3 kW', qty: "—" },
+  { id: 12, name: "Cutting Torch Set", specs: "—", qty: "03" },
+  {
+    id: 13,
+    name: "Plasma Cutting Set",
+    specs: "380V, 3 Phase, 400 Amp",
+    qty: "—",
+  },
+  { id: 14, name: "Manual Hydraulic Jack", specs: "50 Ton", qty: "02" },
+  { id: 15, name: "Chain Block", specs: "5 Ton, 3 Ton, 1 Ton", qty: "01" },
+];

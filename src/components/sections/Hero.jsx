@@ -10,12 +10,36 @@ const Hero = () => {
       id="home"
       className="relative min-h-screen flex items-center bg-navy overflow-hidden"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
+      {/* 🎥 Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="/images/video.mp4" type="video/mp4" />
+      </video>
+
+      {/* 🔵 Navy Overlay - Strong dark tint */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundColor: '#0B101B',
+          opacity: 0.85,
+        }}
+      />
+
+      {/* Gradient Overlay - Extra depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-navy/70 via-navy/50 to-navy/85"></div>
+
+      {/* Background Glow Pattern */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-green blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-green blur-3xl"></div>
       </div>
 
+      {/* Content */}
       <div
         ref={ref}
         className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 transition-all duration-1000 ${
@@ -23,7 +47,7 @@ const Hero = () => {
         }`}
       >
         <div className="max-w-3xl">
-          <span className="inline-flex items-center gap-2 bg-green/20 text-green px-4 py-2 rounded-full text-sm font-semibold mb-6">
+          <span className="inline-flex items-center gap-2 bg-green/20 text-green px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-green/30">
             <FaIndustry /> {companyInfo.experience} of Excellence
           </span>
 
@@ -40,7 +64,7 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <a
               href="#services"
-              className="inline-flex items-center justify-center gap-2 bg-green text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-dark transition-all duration-300 shadow-lg"
+              className="inline-flex items-center justify-center gap-2 bg-green text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-dark transition-all duration-300 shadow-lg shadow-green/20"
             >
               Our Services <FaArrowRight />
             </a>

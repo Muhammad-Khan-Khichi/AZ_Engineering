@@ -1,3 +1,4 @@
+import SEO from '../components/ui/SEO'
 import Hero from '../components/sections/Hero'
 import About from '../components/sections/About'
 import Leadership from '../components/sections/Leadership'
@@ -10,6 +11,11 @@ import Contact from '../components/sections/Contact'
 const Home = () => {
   return (
     <>
+      <SEO
+        title="A & Z Engineering | Mechanical, Electrical & Textile Machinery – Lahore"
+        description="A & Z Engineering, Lahore since 1999 mechanical, electrical & textile machinery design, fabrication, installation, automation & maintenance services."
+        path="/"
+      />
       <Hero />
       <About />
       <Leadership />

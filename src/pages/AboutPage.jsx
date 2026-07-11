@@ -5,6 +5,8 @@ import SectionHeader from '../components/ui/SectionHeader'
 import { companyInfo } from '../data/companyInfo'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { FaCheckCircle } from 'react-icons/fa'
+import SEO from '../components/ui/SEO'
+
 
 const values = [
   'Integrity in every project',
@@ -20,6 +22,11 @@ const AboutPage = () => {
 
   return (
     <div>
+      <SEO
+        title="About Us | A & Z Engineering – Since 1999"
+        description="Learn about A & Z Engineering's 25+ years of experience in mechanical, electrical, and textile machinery engineering in Lahore, Pakistan."
+        path="/about"
+      />
       {/* Page Banner */}
       <section
         className="relative h-[420px] md:h-[480px] flex items-center justify-center bg-cover bg-center bg-no-repeat"

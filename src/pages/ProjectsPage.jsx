@@ -4,6 +4,7 @@ import { projects } from '../data/projects'
 import SectionHeader from '../components/ui/SectionHeader'
 import Badge from '../components/ui/Badge'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import SEO from '../components/ui/SEO'
 
 const categories = ['All', 'Mechanical', 'Electrical', 'Textile', 'Automation']
 
@@ -20,6 +21,12 @@ const ProjectsPage = () => {
 
   return (
     <div>
+      <SEO
+        title="Our Projects | A & Z Engineering Portfolio – Lahore"
+        description="Browse completed mechanical, electrical, textile machinery, and automation projects delivered by A & Z Engineering across Pakistan since 1999."
+        url="https://www.azengineering.com/projects"
+      />
+
       {/* Page Banner with Background Image - TEXT APPEARS IMMEDIATELY */}
       <section className="relative h-[420px] md:h-[480px] flex items-center justify-center bg-cover bg-center bg-no-repeat">
         {/* Background Image */}
@@ -165,6 +172,7 @@ const ProjectsPage = () => {
             the same quality and precision.
           </p>
 
+          {/* ✅ FIXED: Added opening <a tag */}
           <a
             href="/#contact"
             className="inline-flex items-center gap-2 bg-green text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-dark transition-all duration-300"

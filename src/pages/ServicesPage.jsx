@@ -3,6 +3,8 @@ import * as FaIcons from 'react-icons/fa'
 import { services } from '../data/services'
 import SectionHeader from '../components/ui/SectionHeader'
 import { FaArrowRight } from 'react-icons/fa'
+import SEO from '../components/ui/SEO'
+
 
 const processSteps = [
   {
@@ -51,6 +53,12 @@ const ServicesPage = () => {
 
   return (
     <div>
+      <SEO
+        title="Our Services | Industrial Automation & Machinery – A & Z Engineering"
+        description="Explore our mechanical, electrical, PLC automation, fabrication, and industrial maintenance services for textile and manufacturing industries in Lahore."
+        url="https://www.azengineering.com/services"
+      />
+
       {/* Page Banner with Background Image */}
       <section
         className="relative h-[420px] md:h-[480px] flex items-center justify-center bg-cover bg-center bg-no-repeat"
@@ -124,6 +132,7 @@ const ServicesPage = () => {
                     ))}
                   </ul>
 
+                  {/* ✅ FIXED: Added opening <a tag */}
                   <a
                     href="/#contact"
                     className="inline-flex items-center gap-2 text-green font-semibold text-sm hover:gap-3 transition-all duration-300"

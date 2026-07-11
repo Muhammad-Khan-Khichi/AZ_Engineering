@@ -11,6 +11,7 @@ import { companyInfo } from '../data/companyInfo'
 import { useContactStore } from '../store/useContactStore'
 import { services } from '../data/services'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import SEO from '../components/ui/SEO'
 
 const ContactPage = () => {
   const { formData, status, setField, resetForm, setStatus } = useContactStore()
@@ -71,6 +72,12 @@ const ContactPage = () => {
 
   return (
     <div>
+      <SEO
+        title="Contact Us | A & Z Engineering – Lahore"
+        description="Get in touch with A & Z Engineering for mechanical, electrical, and textile machinery services. Located on Ferozepur Road, Lahore, Pakistan."
+        url="https://www.azengineering.com/contact"
+      />
+
       {/* Page Banner with Background Image - contact.jpg */}
       <section className="relative h-[420px] md:h-[480px] flex items-center justify-center bg-cover bg-center bg-no-repeat">
         {/* Background Image - contact.jpg */}
@@ -360,7 +367,7 @@ const ContactPage = () => {
               title="Office Location"
             ></iframe>
 
-            {/* Direction Button Overlay */}
+            {/* ✅ FIXED: Added opening <a tag */}
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(companyInfo.address)}`}
               target="_blank"

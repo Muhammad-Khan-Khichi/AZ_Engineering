@@ -1,7 +1,18 @@
 import { create } from 'zustand'
 
 export const useNavStore = create((set) => ({
-  mobileMenuOpen: false,
-  toggleMobileMenu: () => set((state) => ({ mobileMenuOpen: !state.mobileMenuOpen })),
-  closeMobileMenu: () => set({ mobileMenuOpen: false }),
+  // Menu state
+  isOpen: false,
+  
+  // Toggle menu open/closed
+  toggleMenu: () =>
+    set((state) => ({ isOpen: !state.isOpen })),
+  
+  // Open menu
+  openMenu: () =>
+    set({ isOpen: true }),
+  
+  // Close menu
+  closeMenu: () =>
+    set({ isOpen: false }),
 }))

@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { FiMenu, FiX } from 'react-icons/fi'
-import { FaIndustry } from 'react-icons/fa'
+import { FaBars, FaTimes } from 'react-icons/fa'
 import { useNavStore } from '../../store/useNavStore'
 
 const navLinks = [
@@ -13,120 +12,140 @@ const navLinks = [
 ]
 
 const Navbar = () => {
-  const { mobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useNavStore()
+  const { isOpen, toggleMenu, closeMenu } = useNavStore()
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
 
-  // Check if we're on homepage (where hero is navy)
   const isHomePage = location.pathname === '/'
+  const isInnerPage = !isHomePage
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40)
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+
+    handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Determine if navbar should show "white mode" (transparent on dark bg)
-  // Only home page shows white mode initially
-  const useWhiteMode = isHomePage && !scrolled
+  useEffect(() => {
+    closeMenu()
+  }, [location.pathname])
+
+  const logoClass = isInnerPage
+    ? 'h-10 md:h-12 w-auto'
+    : scrolled
+    ? 'h-10 md:h-12 w-auto'
+    : 'h-12 md:h-14 w-auto'
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        useWhiteMode
-          ? 'bg-transparent py-5'
-          : 'bg-white/95 backdrop-blur-md shadow-md py-3'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isInnerPage
+          ? 'bg-white shadow-md py-3'
+          : scrolled
+          ? 'bg-white shadow-md py-3'
+          : 'bg-transparent py-5'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-lg bg-green flex items-center justify-center text-white text-xl">
-            <FaIndustry />
-          </div>
-          <div className="leading-tight">
-            <span
-              className={`block font-bold text-lg transition-colors duration-300 ${
-                useWhiteMode ? 'text-white' : 'text-navy'
-              }`}
-            >
-              A & Z
-            </span>
-            <span className="block text-green text-xs font-medium">
-              Engineering
-            </span>
-          </div>
+        <Link to="/" className="flex items-center">
+          <img
+            src="/images/az-logo.jpeg"
+            alt="A & Z Engineering"
+            className={`${logoClass} transition-all duration-300`}
+          />
         </Link>
 
-        {/* Desktop Links */}
-        <ul className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <Link
-                to={link.to}
-                className={`font-medium text-sm transition-colors duration-300 ${
-                  useWhiteMode
-                    ? 'text-white hover:text-green'
-                    : 'text-navy hover:text-green'
-                }`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        {/* CTA Button (Desktop) */}
-        <a
-          href="tel:+923070409362"
-          className={`hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
-            useWhiteMode
-              ? 'bg-white/10 text-white border border-white/30 backdrop-blur-sm hover:bg-white hover:text-navy'
-              : 'bg-green text-white hover:bg-green-dark'
-          }`}
-        >
-          Get a Quote
-        </a>
-
-        {/* Mobile Toggle */}
-        <button
-          onClick={toggleMobileMenu}
-          className={`lg:hidden text-2xl transition-colors duration-300 ${
-            useWhiteMode ? 'text-white' : 'text-navy'
-          }`}
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <FiX /> : <FiMenu />}
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 mt-3">
-          <ul className="flex flex-col py-4 px-6 gap-1">
-            {navLinks.map((link) => (
+        {/* Desktop Nav Links */}
+        <ul className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.to
+            return (
               <li key={link.label}>
                 <Link
                   to={link.to}
-                  onClick={closeMobileMenu}
-                  className="block py-3 text-navy hover:text-green font-medium border-b border-gray-50"
+                  className={`font-semibold text-sm uppercase tracking-wider transition-colors duration-300 ${
+                    isInnerPage || scrolled
+                      ? isActive
+                        ? 'text-green'
+                        : 'text-navy hover:text-green'
+                      : isActive
+                      ? 'text-green'
+                      : 'text-white hover:text-green'
+                  }`}
                 >
                   {link.label}
                 </Link>
               </li>
-            ))}
-            <li className="pt-3">
-              <a
-                href="tel:+923070409362"
-                onClick={closeMobileMenu}
-                className="block text-center bg-green text-white px-5 py-3 rounded-lg font-semibold"
-              >
-                Get a Quote
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
+            )
+          })}
+        </ul>
+
+        {/* Get a Quote Button (Desktop) */}
+        <Link
+          to="/contact"
+          className={`hidden md:inline-block font-semibold text-sm px-6 py-2.5 rounded-lg transition-all duration-300 ${
+            isInnerPage || scrolled
+              ? 'bg-green hover:bg-green-dark text-white'
+              : 'bg-green hover:bg-white hover:text-green text-white border-2 border-green'
+          }`}
+        >
+          Get a Quote
+        </Link>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMenu}
+          className={`md:hidden text-2xl ${
+            isInnerPage || scrolled ? 'text-navy' : 'text-white'
+          }`}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ${
+          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        } ${isInnerPage || scrolled ? 'bg-white' : 'bg-navy'}`}
+      >
+        <ul className="flex flex-col px-4 py-4 gap-1">
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.to
+            return (
+              <li key={link.label}>
+                <Link
+                  to={link.to}
+                  className={`block px-4 py-3 rounded-lg font-semibold text-sm uppercase tracking-wider transition-colors ${
+                    isInnerPage || scrolled
+                      ? isActive
+                        ? 'bg-green text-white'
+                        : 'text-navy hover:bg-gray-100'
+                      : isActive
+                      ? 'bg-green text-white'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            )
+          })}
+          <li className="mt-2">
+            <Link
+              to="/contact"
+              className="block text-center bg-green hover:bg-green-dark text-white font-semibold text-sm px-6 py-3 rounded-lg transition-all"
+            >
+              Get a Quote
+            </Link>
+          </li>
+        </ul>
+      </div>
     </header>
   )
 }

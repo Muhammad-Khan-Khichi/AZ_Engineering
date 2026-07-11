@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { FaLinkedin, FaFacebookF, FaInstagram, FaMapMarkerAlt } from 'react-icons/fa'
-import { FaIndustry } from 'react-icons/fa'
 import { companyInfo } from '../../data/companyInfo'
 import { services } from '../../data/services'
 
@@ -15,7 +14,7 @@ const quickLinks = [
 const offices = [
   {
     title: 'Head Office',
-    address: '123 Industrial Area, Lahore, Pakistan',
+    address: companyInfo.address,
   },
   {
     title: 'Branch Office',
@@ -32,22 +31,16 @@ const Footer = () => {
           {/* Column 1: Logo + Acknowledgement */}
           <div>
             {/* Logo */}
-            <Link to="/" className="inline-flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-green flex items-center justify-center text-white text-xl">
-                <FaIndustry />
-              </div>
-              <div className="leading-tight">
-                <span className="block font-bold text-lg text-white">
-                  A & Z
-                </span>
-                <span className="block text-green text-xs font-medium">
-                  Engineering
-                </span>
-              </div>
+            <Link to="/" className="inline-block mb-6">
+              <img
+                src="/images/az-logo.jpeg"
+                alt="A & Z Engineering"
+                className="h-16 md:h-20 w-auto bg-white rounded-lg p-2"
+              />
             </Link>
 
             {/* Acknowledgement Box */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5 mt-4 ">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-5 mt-4">
               <h4 className="text-white font-semibold text-xs uppercase tracking-wider mb-3">
                 Acknowledgement
               </h4>

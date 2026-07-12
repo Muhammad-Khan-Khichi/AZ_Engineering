@@ -1,6 +1,7 @@
 import { FaCheckCircle } from 'react-icons/fa'
 import { companyInfo } from '../../data/companyInfo'
 import SectionHeader from '../ui/SectionHeader'
+import DotBackground from '../ui/DotBackground'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
 
 const highlights = [
@@ -16,8 +17,16 @@ const About = () => {
   const { ref, isVisible } = useScrollAnimation()
 
   return (
-    <section id="about" className="py-20 md:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-20 md:py-28 bg-gray-50 relative overflow-hidden">
+      {/* 🔵 Dotted Background - INSIDE the section */}
+      <DotBackground
+        color="#0B101B"
+        dotSize={1.3}
+        spacing={22}
+        opacity={0.1}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Text */}
           <div>
@@ -28,13 +37,16 @@ const About = () => {
               center={false}
             />
 
-            <div              ref={ref}
+            <div
+              ref={ref}
               className={`transition-all duration-700 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
               }`}
             >
               <p className="text-navy-lighter text-base md:text-lg leading-relaxed mb-6">
-                Founded in {companyInfo.established}, A & Z Engineering started                as a small local setup and has grown into a reputable                engineering firm known for reliability, innovation, and
+                Founded in {companyInfo.established}, A & Z Engineering started
+                as a small local setup and has grown into a reputable
+                engineering firm known for reliability, innovation, and
                 quality. We specialize in mechanical fabrication, electrical
                 system design, industrial automation, and textile machinery
                 solutions.

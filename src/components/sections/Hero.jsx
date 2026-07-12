@@ -57,7 +57,7 @@ const Hero = () => {
 
           <p className="text-white/70 text-lg md:text-xl mb-10 max-w-2xl leading-relaxed">
             A & Z Engineering delivers reliable mechanical, electrical, and
-            textile machinery solutions — from design and fabrication to
+            textile machinery solutions from design and fabrication to
             installation, maintenance, and automation.
           </p>
 

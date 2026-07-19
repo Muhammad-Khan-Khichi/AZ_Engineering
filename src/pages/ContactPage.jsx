@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -6,41 +7,75 @@ import {
   FaPaperPlane,
   FaUserTie,
   FaDirections,
+  FaCheckCircle,
+  FaExclamationCircle,
 } from 'react-icons/fa'
 import { companyInfo } from '../data/companyInfo'
-import { useContactStore } from '../store/useContactStore'
 import { services } from '../data/services'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { sendContactEmail } from '../services/emailService'
 import SEO from '../components/ui/SEO'
 
 const ContactPage = () => {
-  const { formData, status, setField, resetForm, setStatus } = useContactStore()
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation()
+
+  // Form State
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    message: '',
+  })
+
+  const [status, setStatus] = useState('idle') // idle | loading | success | error
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      phone: '',
+      email: '',
+      service: '',
+      message: '',
+    })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('loading')
+    setErrorMessage('')
 
-    try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY',
-          ...formData,
-        }),
-      })
-
-      if (response.ok) {
-        setStatus('success')
-        resetForm()
-        setTimeout(() => setStatus('idle'), 5000)
-      } else {
-        setStatus('error')
-        setTimeout(() => setStatus('idle'), 5000)
-      }
-    } catch (error) {
+    // Validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
       setStatus('error')
+      setErrorMessage('Please fill in all required fields.')
+      setTimeout(() => setStatus('idle'), 5000)
+      return
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setStatus('error')
+      setErrorMessage('Please enter a valid email address.')
+      setTimeout(() => setStatus('idle'), 5000)
+      return
+    }
+
+    const result = await sendContactEmail(formData)
+
+    if (result.success) {
+      setStatus('success')
+      resetForm()
+      setTimeout(() => setStatus('idle'), 5000)
+    } else {
+      setStatus('error')
+      setErrorMessage(result.message)
       setTimeout(() => setStatus('idle'), 5000)
     }
   }
@@ -78,17 +113,14 @@ const ContactPage = () => {
         url="https://www.azengineering.com/contact"
       />
 
-      {/* Page Banner with Background Image - contact.jpg */}
+      {/* Page Banner */}
       <section className="relative h-[420px] md:h-[480px] flex items-center justify-center bg-cover bg-center bg-no-repeat">
-        {/* Background Image - contact.jpg */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: 'url("/images/contact.jpg")',
           }}
         />
-
-        {/* Navy Overlay */}
         <div
           className="absolute inset-0"
           style={{
@@ -96,23 +128,18 @@ const ContactPage = () => {
             opacity: 0.88,
           }}
         />
-
-        {/* Decorative glow accents */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-1/4 w-72 h-72 rounded-full bg-green/10 blur-3xl"></div>
           <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-green/5 blur-3xl"></div>
         </div>
 
-        {/* Banner Content - Appears Immediately */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-8 md:py-10">
           <span className="inline-block text-green font-semibold text-sm uppercase tracking-wider mb-4 border border-green/40 rounded-full px-4 py-1.5">
             Get In Touch
           </span>
-
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
             Contact Us
           </h1>
-
           <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             We're here to help with your engineering needs. Reach out and
             let's talk about your next project.
@@ -154,8 +181,7 @@ const ContactPage = () => {
                   return (
                     <div
                       key={detail.label}
-                      className="flex items-start gap-4 rounded-xl p-5 border border-gray-100 hover:border-green/40 hover:shadow-md transition-all duration-300"
-                      style={{ backgroundColor: '#F9FAFB' }}
+                      className="flex items-start gap-4 rounded-xl p-5 border border-gray-100 hover:border-green/40 hover:shadow-md transition-all duration-300 bg-gray-50"
                     >
                       <div className="w-12 h-12 rounded-lg bg-green/10 flex items-center justify-center text-green text-xl flex-shrink-0">
                         <Icon />
@@ -197,7 +223,6 @@ const ContactPage = () => {
               className="rounded-2xl p-8 md:p-10 relative overflow-hidden shadow-xl"
               style={{ backgroundColor: '#0B101B' }}
             >
-              {/* Glow accents */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-green/20 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-green/10 rounded-full blur-3xl"></div>
 
@@ -209,6 +234,22 @@ const ContactPage = () => {
                   Fill out the form and our team will respond within 24 hours.
                 </p>
 
+                {/* Success Message */}
+                {status === 'success' && (
+                  <div className="p-4 rounded-lg bg-green/20 border border-green/40 text-green text-sm flex items-center gap-3 animate-fade-in">
+                    <FaCheckCircle className="text-lg flex-shrink-0" />
+                    <span>Message sent successfully! We'll get back to you soon.</span>
+                  </div>
+                )}
+
+                {/* Error Message */}
+                {status === 'error' && (
+                  <div className="p-4 rounded-lg bg-red-500/20 border border-red-500/40 text-red-300 text-sm flex items-center gap-3 animate-fade-in">
+                    <FaExclamationCircle className="text-lg flex-shrink-0" />
+                    <span>{errorMessage || 'Something went wrong. Please try again.'}</span>
+                  </div>
+                )}
+
                 {/* Name + Phone */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
@@ -217,10 +258,12 @@ const ContactPage = () => {
                     </label>
                     <input
                       type="text"
+                      name="name"
                       required
                       value={formData.name}
-                      onChange={(e) => setField('name', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30"
+                      onChange={handleChange}
+                      disabled={status === 'loading'}
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30 disabled:opacity-50"
                       placeholder="John Doe"
                     />
                   </div>
@@ -230,10 +273,12 @@ const ContactPage = () => {
                     </label>
                     <input
                       type="tel"
+                      name="phone"
                       required
                       value={formData.phone}
-                      onChange={(e) => setField('phone', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30"
+                      onChange={handleChange}
+                      disabled={status === 'loading'}
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30 disabled:opacity-50"
                       placeholder="+92 300 1234567"
                     />
                   </div>
@@ -246,10 +291,12 @@ const ContactPage = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setField('email', e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30"
+                    onChange={handleChange}
+                    disabled={status === 'loading'}
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30 disabled:opacity-50"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -260,10 +307,12 @@ const ContactPage = () => {
                     Service Interested In *
                   </label>
                   <select
+                    name="service"
                     required
                     value={formData.service}
-                    onChange={(e) => setField('service', e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all appearance-none cursor-pointer"
+                    onChange={handleChange}
+                    disabled={status === 'loading'}
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all appearance-none cursor-pointer disabled:opacity-50"
                     style={{
                       backgroundImage:
                         "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E\")",
@@ -293,11 +342,13 @@ const ContactPage = () => {
                     Your Message *
                   </label>
                   <textarea
+                    name="message"
                     required
                     rows="5"
                     value={formData.message}
-                    onChange={(e) => setField('message', e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30 resize-none"
+                    onChange={handleChange}
+                    disabled={status === 'loading'}
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-green focus:bg-white/10 transition-all placeholder-white/30 resize-none disabled:opacity-50"
                     placeholder="Tell us about your project, requirements, timeline..."
                   ></textarea>
                 </div>
@@ -320,19 +371,10 @@ const ContactPage = () => {
                   )}
                 </button>
 
-                {/* Status Messages */}
-                {status === 'success' && (
-                  <div className="p-4 rounded-lg bg-green/20 border border-green/40 text-green text-sm flex items-center gap-2">
-                    <span className="text-lg">✓</span>
-                    Message sent successfully! We'll get back to you soon.
-                  </div>
-                )}
-                {status === 'error' && (
-                  <div className="p-4 rounded-lg bg-red-500/20 border border-red-500/40 text-red-300 text-sm flex items-center gap-2">
-                    <span className="text-lg">✗</span>
-                    Something went wrong. Please try again or call us directly.
-                  </div>
-                )}
+                {/* Privacy Note */}
+                <p className="text-white/40 text-xs text-center">
+                  By submitting, you agree to our privacy policy. We'll never share your info.
+                </p>
               </form>
             </div>
           </div>
@@ -354,7 +396,6 @@ const ContactPage = () => {
             </p>
           </div>
 
-          {/* Map Container */}
           <div className="relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 h-80 md:h-96 bg-gray-200">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3401.0!2d74.3!3d31.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDMwJzAwLjAiTiA3NMKwMTgnMDAuMCJF!5e0!3m2!1sen!2s!4v1234567890"
@@ -367,7 +408,6 @@ const ContactPage = () => {
               title="Office Location"
             ></iframe>
 
-            {/* ✅ FIXED: Added opening <a tag */}
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(companyInfo.address)}`}
               target="_blank"

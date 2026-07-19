@@ -10,7 +10,7 @@ export const team = [
   {
     id: 2,
     name: "Engr. Shanza Arshad",
-    role: "Director — Environmental Engineer",
+    role: "Director Environmental Engineer",
     initials: "SA",
     bio: "Registered Environmental Engineer bringing specialized expertise in sustainable engineering practices and environmental compliance to the company's projects.",
     pec: "ENVIRO002059",
@@ -18,7 +18,7 @@ export const team = [
   {
     id: 3,
     name: "Engr. Hafiz M. Rehan",
-    role: "Director — Electrical Engineer",
+    role: "Director Electrical Engineer",
     initials: "HR",
     bio: "Registered Electrical Engineer specializing in electrical system design, industrial automation, and power distribution networks for industrial applications.",
     pec: "ELECT/55156",

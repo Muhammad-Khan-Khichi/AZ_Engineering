@@ -31,7 +31,7 @@ const Hero = () => {
       />
 
       {/* Gradient Overlay - Extra depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-navy/70 via-navy/50 to-navy/85"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-navy/70 via-navy/50 to-navy/85"></div>
 
       {/* Background Glow Pattern */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">

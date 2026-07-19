@@ -63,7 +63,7 @@ const Equipment = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          <div className="group relative overflow-hidden bg-gradient-to-br from-navy to-navy-light text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+          <div className="group relative overflow-hidden bg-linear-to-br from-navy to-navy-light text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all">
             <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -mr-10 -mt-10"></div>
             <div className="relative">
               <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3">
@@ -74,7 +74,7 @@ const Equipment = () => {
             </div>
           </div>
 
-          <div className="group relative overflow-hidden bg-gradient-to-br from-green to-green-dark text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+          <div className="group relative overflow-hidden bg-linear-to-br from-green to-green-dark text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all">
             <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -mr-10 -mt-10"></div>
             <div className="relative">
               <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3">
@@ -159,7 +159,7 @@ const Equipment = () => {
                 className="group relative bg-white rounded-2xl p-6 border border-gray-100 hover:border-transparent hover:shadow-2xl transition-all duration-300 overflow-hidden"
               >
                 {/* Hover Gradient Border Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green/0 via-green/0 to-navy/0 group-hover:from-green/5 group-hover:to-navy/5 transition-all duration-300 rounded-2xl pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-green/0 via-green/0 to-navy/0 group-hover:from-green/5 group-hover:to-navy/5 transition-all duration-300 rounded-2xl pointer-events-none"></div>
 
                 {/* Top Row */}
                 <div className="flex items-start justify-between mb-5 relative">
@@ -172,7 +172,7 @@ const Equipment = () => {
                     </span> */}
                   </div>
                   <div className="relative">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green/10 to-green/5 text-green flex items-center justify-center text-xl group-hover:from-green group-hover:to-green-dark group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                    <div className="w-12 h-12 rounded-xl bg-linear-to-br from-green/10 to-green/5 text-green flex items-center justify-center text-xl group-hover:from-green group-hover:to-green-dark group-hover:text-white group-hover:scale-110 transition-all duration-300">
                       <IconComponent />
                     </div>
                   </div>
@@ -198,14 +198,14 @@ const Equipment = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-navy-lighter font-medium">Qty</span>
-                    <span className="bg-gradient-to-br from-green/10 to-green/5 text-green font-bold text-sm px-3 py-1 rounded-full border border-green/20">
+                    <span className="bg-linear-to-br from-green/10 to-green/5 text-green font-bold text-sm px-3 py-1 rounded-full border border-green/20">
                       {item.qty}
                     </span>
                   </div>
                 </div>
 
                 {/* Corner Accent */}
-                <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-green/5 to-transparent rounded-tl-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute bottom-0 right-0 w-16 h-16 bg-linear-to-tl from-green/5 to-transparent rounded-tl-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
             )
           })}

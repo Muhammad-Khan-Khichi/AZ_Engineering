@@ -44,7 +44,6 @@ const ProjectCard = ({ project, onImageClick }) => {
             src={project.images[currentImage]}
             alt={project.title}
             onError={() => setImageError(true)}
-            loading="lazy"
             className={`w-full h-full object-cover transition-transform duration-700 ${
               isHovered ? 'scale-110' : 'scale-100'
             }`}
@@ -82,27 +81,19 @@ const ProjectCard = ({ project, onImageClick }) => {
           </div>
         )}
 
-        {/* Image Navigation */}
+        {/* Image Navigation - Visible on mobile, hover on desktop */}
         {project.images.length > 1 && !imageError && (
           <>
             <button
               onClick={prevImage}
-              className={`absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-navy flex items-center justify-center transition-all z-10 shadow-lg ${
-                isHovered
-                  ? 'opacity-100 translate-x-0'
-                  : 'opacity-0 -translate-x-2 pointer-events-none'
-              }`}
+              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-white/95 hover:bg-white text-navy flex items-center justify-center transition-all z-10 shadow-lg md:opacity-0 md:-translate-x-2 md:pointer-events-none md:group-hover:opacity-100 md:group-hover:translate-x-0 md:group-hover:pointer-events-auto active:scale-90"
               aria-label="Previous image"
             >
               <FaChevronLeft className="text-sm" />
             </button>
             <button
               onClick={nextImage}
-              className={`absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-navy flex items-center justify-center transition-all z-10 shadow-lg ${
-                isHovered
-                  ? 'opacity-100 translate-x-0'
-                  : 'opacity-0 translate-x-2 pointer-events-none'
-              }`}
+              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-white/95 hover:bg-white text-navy flex items-center justify-center transition-all z-10 shadow-lg md:opacity-0 md:translate-x-2 md:pointer-events-none md:group-hover:opacity-100 md:group-hover:translate-x-0 md:group-hover:pointer-events-auto active:scale-90"
               aria-label="Next image"
             >
               <FaChevronRight className="text-sm" />
@@ -110,12 +101,10 @@ const ProjectCard = ({ project, onImageClick }) => {
           </>
         )}
 
-        {/* Expand Button */}
+        {/* Expand Button - Visible on mobile, hover on desktop */}
         <button
           onClick={handleExpand}
-          className={`absolute bottom-4 right-4 w-10 h-10 rounded-full bg-green text-white flex items-center justify-center hover:bg-green-dark transition-all shadow-lg z-10 ${
-            isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-          }`}
+          className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-green text-white flex items-center justify-center hover:bg-green-dark transition-all shadow-lg z-10 md:opacity-0 md:scale-75 md:group-hover:opacity-100 md:group-hover:scale-100 active:scale-90"
           aria-label="Expand image"
         >
           <FaExpand className="text-sm" />

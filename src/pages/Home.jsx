@@ -7,6 +7,8 @@ import Projects from '../components/sections/Projects'
 import MissionVision from '../components/sections/MissionVision'
 import Equipment from '../components/sections/Equipment'
 import Contact from '../components/sections/Contact'
+// import StatsBar from '../components/sections/StatsBar'  // ← NEW
+import Clients from '../components/sections/Clients'
 
 const Home = () => {
   return (
@@ -21,6 +23,8 @@ const Home = () => {
       <Leadership />
       <Services />
       <Projects />
+      <Clients />
+      {/* <StatsBar />        ← NEW: Stats after Projects */}
       <MissionVision />
       <Equipment />
       <Contact />

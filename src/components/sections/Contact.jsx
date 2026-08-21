@@ -118,7 +118,7 @@ const ContactPage = () => {
   return (
     <div>
       <SEO
-        title="Contact Us | A & Z Engineering – Lahore"
+        title="Contact Us | A & Z Engineering - Lahore"
         description="Get in touch with A & Z Engineering for mechanical, electrical, and textile machinery services. Located on Ferozepur Road, Lahore, Pakistan."
         url="https://www.azengineering.com/contact"
       />
